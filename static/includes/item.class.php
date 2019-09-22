@@ -1,89 +1,99 @@
 
 <?php
+require "db.php";
 
-class AddCloth {
-        public function insert_cloth(){
+class cloth extends db{
 
-            try{
-    $pdo = new PDO("mysql:host=localhost;dbname=btq", "root", "");
-    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-            } catch(PDOException $e){
-                 die("ERROR: Could not connect. " . $e->getMessage());
+public function insert_cloth(){
+    
+    $conn = new db();
+    
+
+    if ($conn->connect()) {
+        $item_name = mysqli_real_escape_string($conn->connect(), $_POST['item_name']);
+        $item_code = mysqli_real_escape_string($conn->connect(), $_POST['item_code']);
+        $item_size = mysqli_real_escape_string($conn->connect(), $_POST['item_size']);
+        $price_tag = mysqli_real_escape_string($conn->connect(), $_POST['price_tag']);
+        $description = mysqli_real_escape_string($conn->connect(), $_POST['item_description']);
+        //image variables
+        $file_name = $_FILES["item_image"]["name"];
+        $file_type = $_FILES["item_image"]["type"];
+        $file_size = $_FILES["item_image"]["size"];
+
+        //check file extension
+        $allowed = array("jpg" => "image/jpg", "JPG" => "image/JPG", "jpeg" => "image/jpeg", "JPEG" => "image/JPEG", "gif" => "image/gif", "GIF" => "image/GIF", "png" => "image/png", "PNG" => "image/PNG");
+        $file_extension = pathinfo($file_name, PATHINFO_EXTENSION);
+        if (array_key_exists($file_extension, $allowed)) {
+            //check if file exists
+            if(!file_exists("../images/cloths/" . $file_name)){
+
+                $sql = "INSERT INTO cloths (itemName, itemCode, itemSize, priceTag, description, image1) values('$item_name', '$item_code', '$item_size', '$price_tag', '$description', 'cloths/$file_name')";
+
+                move_uploaded_file($_FILES["item_image"]["tmp_name"], "../images/cloths/" . $file_name);
+
+                $conn->connect()->query($sql);
+
+
+                
+            }else {
+                exit("FILE NAME ALREADY EXISTS TRY CHANGING FILE NAME");
             }
-         try {
 
-                 $filename = $_FILES["item_image"]["name"];
-            
-                 $sql = "INSERT INTO cloths (itemName, priceTag, itemCode, itemSize, description, image1) VALUES (:itemName, :priceTag, :itemCode, :itemSize, :description, :itemImage)";
-                 $stmt = $pdo->prepare($sql);
-
-                $stmt->bindParam(':itemName', $itemName, PDO::PARAM_STR);
-                $stmt->bindParam(':priceTag', $priceTag, PDO::PARAM_STR);
-                $stmt->bindParam(':itemCode', $itemCode, PDO::PARAM_STR);
-                $stmt->bindParam(':itemSize', $itemSize, PDO::PARAM_STR);
-                $stmt->bindParam(':description', $description, PDO::PARAM_STR);
-                $stmt->bindParam(':itemImage', $itemImage, PDO::PARAM_STR);
-
-                $itemName = $_POST['itemName'];
-                $priceTag = $_POST['priceTag'];
-                $itemCode = $_POST['itemCode'];
-                $itemSize = $_POST['itemSize'];
-                $description = $_POST['description'];
-                $itemImage = $filename;
-
-                $stmt->execute();
-                echo "Records inserted successfully.";
-
-            } catch (PDOException $e) {
-                exit("ERROR: Could not prepare/execute query: $sql. " . $e->getMessage());
-            }
-
-           unset($stmt);
-           unset($pdo);
-                     
+        }else {
+            exit("FILE EXTENSION NOT ALLOWED");
         }
-}
+   
+    }else{
+        exit("SORRY COULD NOT CONNECT TO THE DATABASE");
+    }
+    }
 
 
 
-class process_image_cloth{
 
-    public function process_image(){
-        $allowed = array("jpg" => "image/jpg", "jpeg" => "image/jpeg", "gif" => "image/gif", "png" => "image/png");
-        $filename = $_FILES["item_image"]["name"];
-        $filetype = $_FILES["item_image"]["type"];
-        $filesize = $_FILES["item_image"]["size"];
-    
-        // Verify file extension
-        $ext = pathinfo($filename, PATHINFO_EXTENSION);
-        if(!array_key_exists($ext, $allowed)) exit("Error: Please select a valid file format.");
-    
-        // Verify file size - 5MB maximum
-        //$maxsize = 5 * 1024 * 1024;
-        //if($filesize > $maxsize) die("Error: File size is larger than the allowed limit.");
-    
-        // Verify MYME type of the file
-        if(in_array($filetype, $allowed)){
-            // Check whether file exists before uploading it
-            if(file_exists("../images/cloths/" . $filename)){
-                exit($filename . " already exists.");
+    //Select clothes from db and loop
+    public $item_id;
+    public $item_name;
+    public $price_tag;
+    public $iyem_code;
+    public $item_size;
+    public $item_description;
+    public $item_image;
+
+    public function select_cloth_to_table(){
+
+        $conn = new db();
+        $sql = "SELECT * FROM cloths";
+        if ($cloths = $conn->connect()->query($sql)) {
+
+             while ($cloth = $cloths->fetch_assoc()) {
+
+                $this->item_id = $cloth["itemId"];
+                $this->item_name = $cloth["itemName"];
+                $this->price_tag = $cloth["priceTag"];
+                $this->item_code = $cloth["itemCode"];
+                $this->item_size = $cloth["itemSize"];
+                $this->item_description = $cloth["description"];
+                $this->item_image = $cloth["image1"];
+
+
+                echo '<tr>';
+                echo '<td>' . $this->item_id . '</td>';
+                echo '<td>' . $this->item_name . '</td>';
+                echo '<td>' . $this->price_tag . '</td>';
+                echo '<td>' . $this->item_code . '</td>';
+                echo '<td>' . $this->item_size . '</td>';
+                echo '<td>' . $this->item_description . '</td>';
+                echo '<td>' . $this->item_image . '</td>';
+                echo '</tr>';
+
             }
+        }
+        else{
+            echo "DATABASE CONNECTION FAILED";
         }
     }
 
-    public function move_image(){
-        $filename = $_FILES["item_image"]["name"];
-         move_uploaded_file($_FILES["item_image"]["tmp_name"], "../images/cloths/" . $filename);
-                echo "Your file was uploaded successfully.";
-    }
-}
 
 
-
-class Fetch_Cloth{
-    public function Fetch_Cloth(){
-        $pdo = new PDO("mysql:host=localhost;dbname=btq", "root", "");
-        $sql = "SELECT * FROM clothes";
-        $pdo->execute($sql);
-    }
 }

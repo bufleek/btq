@@ -1,5 +1,5 @@
 <?php
-    include_once "static/includes/item.class.php";
+    include_once "../static/includes/item.class.php";
 ?>
 
 <!DOCTYPE html>
