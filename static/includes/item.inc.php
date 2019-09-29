@@ -2,7 +2,7 @@
 <?php 
 
 if($_SERVER["REQUEST_METHOD"] == "POST"){
-    include "item.class.php";
+    include "../classes/cloth.php";
 }
 else{
     exit("NO ACCES");

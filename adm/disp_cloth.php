@@ -1,5 +1,5 @@
 <?php
-    include_once "../static/includes/item.class.php";
+    include_once "../static/classes/cloth.php";
 ?>
 
 <!DOCTYPE html>
@@ -36,6 +36,7 @@
             <th>Item_Code</th>
             <th>Description</th>
             <th>Image</th>
+            <th>Action</th>
         </tr>
         <?php
                 $item = new cloth();
