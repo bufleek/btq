@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+
+    <style>
+        
+        *{
+            padding:0;
+            margin:0;
+        }
+        body{
+            font-family: Arial, Helvetica, sans-serif;
+        }
+        #addtocart_pop_up{
+            position: absolute;
+            top:0;
+            left:0;
+            width:100%;
+            height: 100vh;
+            display:grid;
+            grid-template-rows: 50px 1fr 50px;
+            grid-template-columns: 30px 1fr 30px;
+            background: rgba(33, 88, 199, 0.612);
+        }
+        #addtocart_pop_up .close{
+            grid-column: 1/4;
+            font-size:35px;
+            text-align:center;
+            display:flex;
+            justify-content: center;
+            align-items: center;
+            font-weight:700;
+        }
+        #addtocart_pop_up .user_form{
+            grid-column: 2/3;
+            grid-row: 2/3;
+            background:linear-gradient(135deg, #C7214E 10%, #3B21C7 50%, #3B21C7 90%, #C72121);
+            border-radius: 10px;
+            
+        }
+        #addtocart_pop_up .user_form form{
+            padding:50px 3px;
+            position: relative;
+            height: calc(100% - 80px);
+        }
+        #addtocart_pop_up .user_form form label{
+            font-weight:600;
+            margin:2px 0 0 10px;
+        }
+        #addtocart_pop_up .user_form form input{
+            width:80%;
+            max-width:300px;
+            margin:5px 0 5px 20px;
+            padding:8px;
+            background:none;
+            color:#fff;
+            border-radius: 10px;
+            border:1px solid black;
+        }
+        #addtocart_pop_up .user_form form h4{
+            opacity:0.6;
+            color:#000;
+            padding:10px 20px;
+        }
+        #addtocart_pop_up .user_form form button.proceed{
+            padding:8px;
+            position:absolute;
+            bottom:50px;
+            right:10px;
+            background:none;
+            border:2px solid #21c77f;
+            color:#fff;
+        }
+        #addtocart_pop_up .bottom{
+            grid-column:1/4;
+            grid-row:3/4;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        #addtocart_pop_up .bottom button.cancel{
+            padding:8px;
+            background:none;
+            border:2px solid #C7214E;
+            color:#fff;  
+        }
+        @media(min-width:576px){
+            #addtocart_pop_up{
+                display:grid;
+                grid-template-columns:70px 1fr 70px;
+            }
+        }
+        @media(min-width:768px){
+            #addtocart_pop_up{
+                display:grid;
+                grid-template-columns:100px 1fr 100px;
+            }
+            #addtocart_pop_up .user_form form{
+            padding:100px 3px;
+            position: relative;
+            height: calc(100% - 180px);
+        }
+        }
+        @media(min-width:992px){
+            #addtocart_pop_up{
+                display:grid;
+                grid-template-columns:150px 1fr 150px;
+            }
+        }
+        @media(min-width:1200px){
+            #addtocart_pop_up{
+                display:grid;
+                grid-template-columns:200px 1fr 200px;
+            }
+        }
+        
+    </style>
+</head>
+<body>
+
+    <div id="addtocart_pop_up">
+        <div class="close">&times;</div>
+        <div class="blank2"></div>
+        <div class="blank3"></div>
+        <div class="bottom">
+            <button class="cancel">Cancel order</button>
+        </div>
+        <div class="user_form">
+            <form action="" method="POST">
+                <label>ITEM ID.</label>
+                <input type="text" name="item_id" value="ItemId" readonly="readonly"><br>
+                <h4>Please provide us with your contact details below so that we can reach you</h4>
+                <label>NAME</label>
+                <input type="text" name="customer_name" placeholder="Enter your full names here" required><br>
+                <label>E-MAIL</label>
+                <input type="mail" name="customer_email" placeholder="Enter your Email" required><br>
+                <label>PHONE NO.</label>
+                <input type="text" name="customer_number" placeholder="Enter Your Phone Number" required><br>
+                
+                <button type="submit" name="to_cart" class="proceed">Proceed</button>
+            </form>
+        </div>
+
+    </div>
+    
+</body>
+</html>

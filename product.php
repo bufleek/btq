@@ -43,6 +43,10 @@
         $object = new cloth;
         $object->select_cloth_to_card();
 
+        if (isset($_GET['id'])) {
+            $item_id = $_GET['id'];
+        }
+
     ?>
 
     

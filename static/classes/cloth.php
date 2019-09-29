@@ -159,7 +159,7 @@ public function insert_cloth(){
                         </div>
                         <div class="about_product">
                             <p class="price_tag">PRICE: Ksh. '.$this->price_tag.'</p>
-                            <a href="static/includes/add_to.cart.php?id='.$this->item_id.'" class="buy">PLACE ORDER</a>
+                            <a href="?id='.$this->item_id.'" class="buy">PLACE ORDER</a>
                             <p class="more">More Details</p>
                         </div>
                     </div>

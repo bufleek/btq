@@ -11,37 +11,10 @@
     <title>Shoe Hub</title>
 
     <style>
-        #cloths{
-            border:1px solid black;
-            border-collapse: collapse;
-        }
-        #cloths tr.header{
-            background:#b98;
-        }
-        #cloths tr td{
-            border:1px solid black;
-        }
-        #cloths tr:nth-child(even){
-            background:#ffff00;
-        }
+        
     </style>
 </head>
 <body>
-    <table id="cloths">
-        <tr class="header">
-            <th>ID</th>
-            <th>Name</th>
-            <th>Price_Tag</th>
-            <th>Size</th>
-            <th>Item_Code</th>
-            <th>Description</th>
-            <th>Image</th>
-        </tr>
-        <?php
-                $item = new cloth();
-                $item->select_cloth_to_table();
-        ?>
-    </table>
-
+  
 </body>
 </html>
