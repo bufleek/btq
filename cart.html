@@ -1,28 +1,38 @@
-<?php
-    include "../static/classes/cart.php";
-?>
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link rel="stylesheet" href="../static/css/cart.css">
+    <link rel="stylesheet" href="static/css/cart.css">
     <title>Document</title>
+
 </head>
 <body>
-        <?php
-        if (isset($_GET['customer'])) {
-            $object = new cart;
-            $object->view_cart();
-        } else {
-            echo 'NO ITEMS ADDED TO CART';
-        }
+    <div id="cart">
+        <div class="itemdetails">
+            <h2>My Item</h2>
+            <p><strong>Name :</strong></p>
+            <p><strong>Item size :</strong></p>
+            <p><strong>Item description :</strong></p>
+            <img src="" alt="Item name">
+        </div>
+        <div class="customerdetails">
+            <h2>Customer Details</h3>
+            <p><strong>Name :</strong></p>
+            <p><strong>Email :</strong></p>
+            <p><strong>Phone no :</strong></p>
+            <button href="#" class="edit">EDIT</button>
+        </div>
+        <div class="checkout">
+            <h2>Checkout</h3>
+            <p><strong>Total Amount :</strong></p>
+            <p><strong>Delivery Terms :</strong></p>
+            <button href="#" class="confirm">CONFIRM ORDER</button>
+        </div>
+    </div>
 
-        if (isset($_GET['edit'])) {
-            echo '
-                <div id="edit">
+    <div id="edit">
             <form action="" method="post">
             <h3>Edit in the fields provided below</h3>
                 <label>Name</label><br>
@@ -37,10 +47,5 @@
               <button href="">Cancel</button>  
             </div>
         </div>
-            ';
-        }
-            
-        ?>
-
 </body>
 </html>
