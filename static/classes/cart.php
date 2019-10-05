@@ -6,11 +6,10 @@ class db
     private $serverusername;
     private $serverpassword;
     private $dbname;
-    private $conn;
 
     protected function connect()
     {
-        $this->servername = "localhost:3306";
+        $this->servername = "localhost";
         $this->serverusername = "root";
         $this->serverpassword = "";
         $this->dbname = "btq";
@@ -62,11 +61,11 @@ class cart extends db
         }
     }
 
-    public function view_cart()
+    public function view_cart($customer_id)
     {
         $conn = new db;
-        $customer_id = $_GET['customer'];
-        $sql = "SELECT customer_name, customer_email, customer_number, itemName, priceTag, itemSize, description, itemCode, image1, sum(priceTag) AS total FROM cart WHERE customer_id = $customer_id";
+        
+        $sql = "SELECT  *  FROM cart WHERE customer_id = $customer_id";
         if ($result = $conn->connect()->query($sql)) {
             while ($row = $result->fetch_assoc()) {
                 $customer_name = $row['customer_name'];
@@ -79,7 +78,6 @@ class cart extends db
                 $item_description = $row['description'];
                 $item_code = $row['itemCode'];
                 $item_image = $row['image1'];
-                $total = $row['total'];
 
                 echo '
                    <div id="cart">
@@ -95,13 +93,13 @@ class cart extends db
             <p><strong>Name :</strong> '.$customer_name.'</p>
             <p><strong>Email :</strong> '.$customer_email.'</p>
             <p><strong>Phone no :</strong> '.$customer_phone.'</p>
-            <button href="#" class="edit">EDIT</button>
+            <p><a href="?edit&customer='.$customer_id.'" class="edit">EDIT</a></p>
         </div>
         <div class="checkout">
             <h2>Checkout</h3>
-            <p><strong>Total Amount :</strong> '.$total.'</p>
+            <p><strong>Total Amount :</strong> '.$item_price.'</p>
             <p><strong>Delivery Terms :</strong></p>
-            <button href="#" class="confirm">CONFIRM ORDER</button>
+            <p><a href="../static/includes/to_cart.php?confirm&customer='.$customer_id.'" class="confirm">CONFIRM ORDER</a></p>
         </div>
     </div>
                     
@@ -112,15 +110,53 @@ class cart extends db
         }
     }
 
-    public function edit_cart()
-    {
-        $conn = new db;
 
-        $sql = "UPDATE TABLE cart SET customer_name=$customer_name, customer_email=$customer_email, customer_number=$customer_phone WHERE customer_id=$customer_id";
-        if ($conn->connect()->query($sql)) {
-            echo "updated";
+    public function fetch_edit_customer($customer_id){
+
+        $conn = new db;
+        $sql = "SELECT customer_email, customer_name, customer_number FROM cart WHERE customer_id=$customer_id";
+
+        if ($result = $conn->connect()->query($sql)) {
+            while ($row = $result->fetch_assoc()) {
+                $customer_name = $row['customer_name'];
+                $customer_email = $row['customer_email'];
+                $customer_phone = $row['customer_number'];
+                
+                echo '
+                <div id="edit">
+            <form action="../static/includes/to_cart.php?customer='.$customer_id.'" method="post">
+            <h3>Edit in the fields provided below</h3>
+                <label>Name</label><br>
+                <input type="text" value="'.$customer_name.'" name="customer_name" placeholder="Enter Your Name" required><br>
+                <label>E-mail</label><br>
+                <input type="text" value="'.$customer_email.'" name="customer_email" placeholder="Enter Your Email" required><br>
+                <label>Phone No.</label><br>
+                <input type="text" value="'.$customer_phone.'" name="customer_phone" placeholder="Enter Your Phone Number" required><br>
+                <button type="submit" name="edit_customer">Submit</button>
+            </form>
+            <div class="cancel">
+              <a href="?customer='.$customer_id.'">Cancel</a>  
+            </div>
+        </div>
+            ';
+            }
         } else {
-            echo "we are having a problem connecting to the database";
+            echo "We are having a problem connecting to the database";
         }
+        
     }
-}
+
+    public function edit_customer_info($customer_name, $customer_id, $customer_email, $customer_phone){
+        $conn = new db;
+       
+            $sql = "UPDATE cart SET customer_name='$customer_name', customer_email='$customer_email', customer_number='$customer_phone' WHERE customer_id=$customer_id";
+            if ($conn->connect()->query($sql)) {
+                header("location: ../../pages/cart.php?edited&customer=$customer_id");
+            } else {
+                 echo "We are having a problem connecting to the database";
+            }
+            
+        }
+
+    }
+

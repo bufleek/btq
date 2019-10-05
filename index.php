@@ -1,5 +1,5 @@
 <?php
-    include_once "static/includes/item.class.php";
+    include_once "static/classes/cloth.php";
 ?>
 
 <!DOCTYPE html>
@@ -11,6 +11,7 @@
     <title>Shoe Hub</title>
 </head>
 <body>
+    
   
 </body>
 </html>
