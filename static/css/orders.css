@@ -1,0 +1,46 @@
+*{
+    padding:0;
+    margin:0;
+}
+body{
+    margin:0 auto;
+    max-width:1150px;
+    background:hsl(0, 0%, 29%);
+}
+#orders{
+    background:#fff;
+    border:1px solid #281146;
+    border-collapse: collapse;
+    max-width:calc(100% - 50px);
+    margin:auto;
+}
+#orders tr{
+    max-width:100%;
+    overflow: scroll;
+}
+
+#orders tr td:nth-child(1){
+    background:#033869; 
+    text-align: center;
+    font-weight: bold;
+    cursor: pointer;
+}
+#orders tr td:nth-child(2), #orders tr td:nth-child(4){
+    background:#281146;
+}
+#orders tr td:nth-child(3){
+    background:#1d1146;
+}
+#orders tr td{
+    padding:10px;
+    border:1px solid #09060e;
+}
+#orders tr:hover{
+    opacity: 0.93;
+}
+#orders tr td a{
+    color:#000;
+}
+#orders tr td{
+    color:rgb(181, 222, 135);
+}

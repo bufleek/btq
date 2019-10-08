@@ -5,7 +5,6 @@ class clothdb{
     private $serverusername;
     private $serverpassword;
     private $dbname;
-    private $conn;
 
     protected function connect(){
 
@@ -32,6 +31,7 @@ public function insert_cloth(){
         $item_size = mysqli_real_escape_string($conn->connect(), $_POST['item_size']);
         $price_tag = mysqli_real_escape_string($conn->connect(), $_POST['price_tag']);
         $description = mysqli_real_escape_string($conn->connect(), $_POST['item_description']);
+        $category = mysqli_real_escape_string($conn->connect(), $_POST['category']);
         //image variables
         $file_name = $_FILES["item_image"]["name"];
         $file_type = $_FILES["item_image"]["type"];
@@ -44,7 +44,7 @@ public function insert_cloth(){
             //check if file exists
             if(!file_exists("../images/cloths/" . $file_name)){
 
-                $sql = "INSERT INTO cloths (itemName, itemCode, itemSize, priceTag, description, image1) values('$item_name', '$item_code', '$item_size', '$price_tag', '$description', '$file_name')";
+                $sql = "INSERT INTO cloths (itemName, itemCode, itemSize, priceTag, description, image1, category) values('$item_name', '$item_code', '$item_size', '$price_tag', '$description', '$file_name', '$category')";
 
                 move_uploaded_file($_FILES["item_image"]["tmp_name"], "../images/cloths/" . $file_name);
 
@@ -76,6 +76,7 @@ public function insert_cloth(){
     public $item_size;
     public $item_description;
     public $item_image;
+    public $category;
 
     public function select_cloth_to_table(){
 
@@ -92,6 +93,7 @@ public function insert_cloth(){
                 $this->item_size = $cloth["itemSize"];
                 $this->item_description = $cloth["description"];
                 $this->item_image = $cloth["image1"];
+                $this->category = $cloth["category"];
 
                 echo '
                 <tr>
@@ -102,6 +104,7 @@ public function insert_cloth(){
                 <td> ' .$this->item_size .'</td>
                 <td> ' .$this->item_description .'</td>
                 <td> ' .$this->item_image .'</td>
+                <td> ' .$this->category .'</td>
                 <td> <a href="../static/includes/delete.item.php?id=' .$this->item_id .'&img='. $this->item_image .'">DELETE</a></td>
                 ';
             }
@@ -172,6 +175,34 @@ public function insert_cloth(){
         }
 
 
+    }
+
+    public function add_slide($item_id){
+        $conn = new clothdb;
+        $sql = "SELECT * FROM cloths WHERE itemId = $item_id";
+        if ($result = $conn->connect()->query($sql)) {
+            while ($cloth = $result->fetch_assoc()) {
+                $item_name = $cloth["itemName"];
+                $price_tag = $cloth["priceTag"];
+                $item_code = $cloth["itemCode"];
+                $item_size = $cloth["itemSize"];
+                $item_description = $cloth["description"];
+                $item_image = $cloth["image1"];
+                $category = $cloth["category"];
+
+                $sql = "INSERT INTO slides (itemId, priceTag, itemCode, itemSize, description, image1, category, itemName) VALUES('$item_id', '$price_tag', '$item_code', '$item_size', '$item_description', '$item_image', '$category', '$item_name')";
+
+                if ($conn->connect()->query($sql)) {
+                    header("location: ../../adm/disp_cloth.php?added_to_slides");
+                } else {
+                    echo "We are having a problem connecting to the database";
+                }
+            }
+                
+        } else {
+            echo "we are having a problem connecting to the database";
+        }
+        
     }
 
 

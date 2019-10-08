@@ -40,7 +40,7 @@ class order extends db{
                     $customer_phone = $row['customer_number'];
                 }
 
-                $sql = "INSERT INTO orders (itemId, itemName, priceTag, itemSize, itemCode, image1, description, customer_name, customer_email, customer_number, customer_id) VALUES('$item_id', '$item_name', '$item_price', '$item_size', '$item_code', '$item_image', '$item_description', '$customer_name', '$customer_email', '$customer_phone', '$customer_id')";
+                $sql = "INSERT INTO orders (itemId, itemName, priceTag, itemSize, itemCode, image1, description, customer_name, customer_email, customer_number, customer_id, seen_status) VALUES('$item_id', '$item_name', '$item_price', '$item_size', '$item_code', '$item_image', '$item_description', '$customer_name', '$customer_email', '$customer_phone', '$customer_id', 'unseen')";
                 if ($conn->connect()->query($sql)) {
                     $sql = "DELETE FROM cart WHERE customer_id=$customer_id";
                     if ($conn->connect()->query($sql)) {
@@ -56,5 +56,38 @@ class order extends db{
             }else{
                 echo "we are having a problem connecting to the database";
             }
+    }
+
+    public function view_orders(){
+        $conn = new db;
+        $sql = "SELECT * FROM orders";
+        if ($result = $conn->connect()->query($sql)) {
+            while($row = $result->fetch_assoc()){
+                $item_id = $row['itemId'];
+                    $item_price = $row['priceTag'];
+                    $item_code = $row['itemCode'];
+                    $item_size = $row['itemSize'];
+                    $item_description = $row['description'];
+                    $item_name = $row['itemName'];
+                    $item_image = $row['image1'];
+                    $date = $row['date_time'];
+
+                    $customer_email = $row['customer_email'];
+                    $customer_name = $row['customer_name'];
+                    $customer_phone = $row['customer_number'];
+
+                    echo '
+                    <tr>
+                        <td><a href="?'.$item_id.'">'.$item_id.'</a></td>
+                        <td>'.$item_name.'</td>
+                        <td style="text-transform:capitalize;">'.$customer_name.'</td>
+                        <td>'.$date.'</td>
+             
+                    ';
+            }
+        } else {
+            echo "we are having a problem connecting to the database";
+        }
+        
     }
 }

@@ -15,6 +15,12 @@ if (isset($_POST['AddCloth'])) {
     else{
         exit("Error: " . $_FILES["item_image"]["error"]);
     }
+}elseif (isset($_POST['add_slide'])) {
+
+    $item_id  = $_POST['item_id'];
+    $object = new cloth;
+    $object->add_slide($item_id);
+
 }
 else{
     exit("NO ACCES");

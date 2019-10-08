@@ -27,6 +27,13 @@
     </style>
 </head>
 <body>
+
+    <form action="../static/includes/item.inc.php" method="POST">
+        <h2>ADD TO SLIDES</h2>
+        <label>Item ID</label>
+        <input type="text" name="item_id" placeholder="Enter item ID">
+        <input type="submit" name="add_slide" value="ADD">
+    </form>
     <table id="cloths">
         <tr class="header">
             <th>ID</th>
@@ -36,6 +43,7 @@
             <th>Item_Code</th>
             <th>Description</th>
             <th>Image</th>
+            <th>Category</th>
             <th>Action</th>
         </tr>
         <?php

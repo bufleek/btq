@@ -32,6 +32,13 @@
                     <input type="text" name="item_description" placeholder="Description of the item(Optional)">
                 <label>Image1:</label>
                     <input type="file" name="item_image" id="image" required>
+                    <select name="category">
+                    <option value="None" selected>Select a category</option>
+                        <option value="Mens">Mens Clothes</option>
+                        <option value="Ladies">Ladies Clothes</option>
+                        <option value="Children">Childrens Clothes</option>
+                    </select> 
+                    
                 <button type="submit" name="AddCloth">SUBMIT</button>
             </form>
     </div>
