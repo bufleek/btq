@@ -78,6 +78,15 @@ public function insert_cloth(){
     public $item_image;
     public $category;
 
+    public function disp_cloth(){
+        $conn = new clothdb();
+        $sql = "SELECT * FROM cloths";
+
+        if ($cloths = $conn->connect()->query($sql)) {
+            return $cloths;
+        }
+    }
+
     public function select_cloth_to_table(){
 
         $conn = new clothdb();
@@ -203,6 +212,50 @@ public function insert_cloth(){
             echo "we are having a problem connecting to the database";
         }
         
+    }
+
+    public function cart($item_id){
+        $conn = new clothdb;
+        $sql = "SELECT * from cloths WHERE itemId = $item_id";
+        if ($result = $conn->connect()->query($sql)) {
+            while ($row = $result->fetch_assoc()) {
+                $item_image = $row['image1'];
+                $item_name = $row['itemName'];
+                
+    echo '
+        
+    <div id="addtocart_pop_up">
+    <a href="?" class="close">&times;</a>
+    <div class="blank2"></div>
+    <div class="blank3"></div>
+    <div class="bottom">
+        <a href="?" class="cancel">Cancel order</a>
+    </div>
+    <div class="user_form">
+    <h3>MY ORDER</h3>
+        <form action="static/includes/to_cart.php" method="POST">
+            <label>ITEM ID.</label><br>
+            <input type="text" name="item_id" value="'.$item_id.'" readonly="readonly"><br>
+            <img src="static/images/cloths/'.$item_image.' alt="'.$item_name.'>
+            <h4>Please provide us with your contact details below so that we can reach you</h4>
+            <label>NAME</label><br>
+            <input type="text" name="customer_name" placeholder="Enter your full names here" required><br>
+            <label>E-MAIL</label><br>
+            <input type="text" name="customer_email" placeholder="Enter your Email" required><br>
+            <label>PHONE NO.</label><br>
+            <input type="text" name="customer_number" placeholder="Enter Your Phone Number" required><br>
+            
+            <button type="submit" name="to_cart" class="proceed">Proceed</button>
+        </form>
+    </div>
+    
+    </div>
+        ';
+            }
+        } else {
+            echo "we are having a problem connecting to the database";
+        }
+         
     }
 
 

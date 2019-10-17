@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Register Admin | Shoe Hub</title>
+    <style>
+        *{
+            margin:0;
+            padding:0;
+        }
+        .form-reg{
+            width:100%;
+            height:100vh;
+            display:flex;
+            flex-direction:column;
+            justify-content: center;
+            align-items: center;
+        }
+        .form-reg form{
+            max-width:500px;
+            width:calc(100% - 50px);
+            background:rgb(11, 238, 189);
+        }
+        .form-reg form input{
+            padding:15px;
+            margin:20px;
+        }
+
+    </style>
+</head>
+<body>
+    <div class="form-reg">
+        <form action="../static/includes/adm.php" method="POST">
+            <label>Username</label>
+            <input type="text" name="usernm" placeholder="Enter Username" required><br>
+            <label>Password</label>
+            <input type="password" name="passwd" placeholder="Enter Password" required><br>
+            <label>Confirm Password</label>
+            <input type="password" name="passwd2" placeholder="Re-enter password" required><br>
+
+            <input type="submit" name="reg" value="Submit">
+        </form>
+    </div>
+</body>
+</html>
+

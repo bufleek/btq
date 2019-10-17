@@ -1,5 +1,5 @@
 <?php
-    include "static/classes/index.php";
+    include "static/includes/class_loader.php";
 ?>
 
 <!DOCTYPE html>
@@ -10,10 +10,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel="stylesheet" href="static/css/index.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" crossorigin="anonymous" />
     <title>Shoe Hub</title>
 </head>
 <body>
     <div class="body">
+    
         <div class="main_slide">
         <script type="text/javascript" src="static/slider/js/jquery-1.9.1.min.js"></script>
     <script type="text/javascript" src="static/slider/js/jssor.slider.min.js"></script>
@@ -26,51 +28,10 @@
         </div>
         <div data-u="slides" style="cursor:default;position:relative;top:0px;left:0px;width:980px;height:380px;overflow:hidden;">
             <?php
-                $object = new index;
-                $object->slide();
+                $slide = new index;
+                $slide->slide();
             ?>
-            <div>
-                <img data-u="image" src="static/slider/img/gallery/980x380/002.jpg" />
-                <div data-u="thumb">Slide Description 002</div>
-            </div>
-            <div>
-                <img data-u="image" src="static/slider/img/gallery/980x380/003.jpg" />
-                <div data-u="thumb">Slide Description 003</div>
-            </div>
-            <div>
-                <img data-u="image" src="static/slider/img/gallery/980x380/004.jpg" />
-                <div data-u="thumb">Slide Description 004</div>
-            </div>
-            <div>
-                <img data-u="image" src="static/slider/img/gallery/980x380/005.jpg" />
-                <div data-u="thumb">Slide Description 005</div>
-            </div>
-            <div>
-                <img data-u="image" src="static/slider/img/gallery/980x380/006.jpg" />
-                <div data-u="thumb">Slide Description 006</div>
-            </div>
-            <div>
-                <img data-u="image" src="static/slider/img/gallery/980x380/007.jpg" />
-                <div data-u="thumb">Slide Description 007</div>
-            </div>
-            <div>
-                <img data-u="image" src="static/slider/img/gallery/980x380/008.jpg" />
-                <div data-u="thumb">Slide Description 008</div>
-            </div>
-            <div>
-                <img data-u="image" src="static/slider/img/gallery/980x380/009.jpg" />
-                <div data-u="thumb">Slide Description 009</div>
-            </div>
-            <div>
-                <img data-u="image" src="static/slider/img/gallery/980x380/010.jpg" />
-                <div data-u="thumb">Slide Description 010</div>
-            </div>
-            <div style="background-color:#ff7c28;">
-                <div style="position:absolute;top:50px;left:50px;width:450px;height:62px;z-index:0;font-size:16px;color:#000000;line-height:24px;text-align:left;padding:5px;box-sizing:border-box;">Title,<br />
-                    description.
-                </div>
-                <div data-u="thumb">More content</div>
-            </div>
+            
         </div>
         <!-- Thumbnail Navigator -->
         <div data-u="thumbnavigator" style="position:absolute;bottom:0px;left:0px;width:980px;height:50px;color:#FFF;overflow:hidden;cursor:default;background-color:rgba(0,0,0,.5);">
@@ -95,14 +56,27 @@
     <!-- #endregion Jssor Slider End -->
 
         </div>
-   <div class="categories">
-   <h3 class="categories">CATEGORIES</h3>
-       <div class="category">
-        <h3 class="category">Mens Wear<span>More</span></h3>
-       </div>
-   </div>
-    
+   <?php
 
+if (isset($_GET['id'])) {
+    require "static/classes/cloth.php";
+    $item_id = $_GET['id'];
+    $pop_up = new cloth;
+    $pop_up->cart($item_id);
+}
+
+?>
+<div class="categories">
+<h2>Top Sales<a href="#"><i class="fas fa-angle-double-right"></i>More<i class="fas fa-angle-double-right"></i></a></h2>
+<hr>
+<div class="category top-sales">
+        <?php
+            $card = new index;
+            $card->card();
+        ?>
+    </div>
+    <hr>
+</div>
 
 
     </div>  
